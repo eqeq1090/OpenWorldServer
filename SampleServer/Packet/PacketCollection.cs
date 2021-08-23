@@ -74,6 +74,9 @@ namespace SampleServer.Packet
     {
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 40)]
         public string Nickname;
+
+        [MarshalAs(UnmanagedType.U2, SizeConst = 2)]
+        public short ResultType;
     }
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]

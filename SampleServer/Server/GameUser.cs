@@ -76,7 +76,13 @@ namespace SampleServer.Server
                         PacketSetNicknameReq data = msg.DeserializeStruct<PacketSetNicknameReq>();
                         Nickname = data.Nickname;
 
+                        PacketBase response = PacketBase.Create((short)EProtocoleType.SetNicknameAck);
+                        PacketSetNicknameAck ack;
+                        ack.Nickname = Nickname;
+                        ack.ResultType = (short)EServerMessageType.Success;
+                        response.PushStruct<PacketSetNicknameAck>(ack);
 
+                        Send(response);
                     }
                     break;
             }
