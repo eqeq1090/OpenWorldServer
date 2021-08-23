@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 
-namespace OpenWorldServer.Network
+namespace ServerLibrary.Network
 {
     /// <summary>
     /// 서버와 클라이언트에서 공통으로 사용하는 세션객체

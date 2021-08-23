@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenWorldServer.Network
+namespace ServerLibrary.Network
 {
     /// <summary>
     /// [header][body] 구조를 갖는 데이터를 파싱하는 클래스.

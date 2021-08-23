@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OpenWorldServer.Network
+namespace ServerLibrary.Network
 {
     /// <summary>
     /// 현재 접속중인 전체 유저를 관리하는 클래스

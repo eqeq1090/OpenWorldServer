@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OpenWorldServer.Network
+namespace ServerLibrary.Network
 {
     /// <summary>
     /// 수신된 패킷을 받아 로직 스레드에서 분배 담당

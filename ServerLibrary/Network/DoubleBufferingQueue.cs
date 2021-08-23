@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenWorldServer.Network
+namespace ServerLibrary.Network
 {
     /// <summary>
     /// 두개의 큐를 교체해가며 활용

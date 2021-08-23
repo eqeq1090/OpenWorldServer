@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Net;
 
-namespace OpenWorldServer.Network
+namespace ServerLibrary.Network
 {
     class Listener
     {

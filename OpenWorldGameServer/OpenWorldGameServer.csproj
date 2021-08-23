@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OpenWorldServer\ServerLibrary.csproj" />
+    <ProjectReference Include="..\ServerLibrary\ServerLibrary.csproj" />
   </ItemGroup>
 
 </Project>

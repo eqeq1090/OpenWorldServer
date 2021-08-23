@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OpenWorldServer.Network;
+using ServerLibrary.Network;
 
-namespace OpenWorldServer.Network
+namespace ServerLibrary.Network
 {
     interface ILogicQueue
     {

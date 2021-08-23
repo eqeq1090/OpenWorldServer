@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 
-namespace OpenWorldServer.Network
+namespace ServerLibrary.Network
 {
     public class NetConnector
     {

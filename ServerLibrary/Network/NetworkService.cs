@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 
 
-namespace OpenWorldServer.Network
+namespace ServerLibrary.Network
 {
     public class NetworkService
     {
