@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using OpenWorldServer.Network;
-using SampleServer.Packet;
+using OpenWorldGameServer.Packet;
 
-namespace SampleServer.Server
+namespace OpenWorldGameServer.Server
 {
     class GameUser : IPeer
     {

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SampleServer.Packet
+namespace OpenWorldGameServer.Packet
 {
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]

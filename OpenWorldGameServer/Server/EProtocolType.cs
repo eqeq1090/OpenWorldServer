@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SampleServer.Server
+namespace OpenWorldGameServer.Server
 {
     public enum EProtocoleType : short
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenWorldServer.Network;
-using SampleServer.Server;
+using OpenWorldGameServer.Server;
 
-namespace SampleServer
+namespace OpenWorldGameServer
 {
     class Program
     {

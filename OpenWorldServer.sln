@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerLibrary", "OpenWorldS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleClient", "SampleClient\SampleClient.csproj", "{0D6E1191-BF84-47DF-9330-51A867A76076}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWorldGameServer", "SampleServer\OpenWorldGameServer.csproj", "{FD697D42-7849-42C0-8C3D-2777D318CBF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWorldGameServer", "OpenWorldGameServer\OpenWorldGameServer.csproj", "{FD697D42-7849-42C0-8C3D-2777D318CBF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
