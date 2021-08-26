@@ -69,21 +69,21 @@ namespace OpenWorldGameServer.Packet
         public float Roll;
     }
     [Serializable]
-    [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
+    //[StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
     public struct PacketSetNicknameAck
     {
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 40)]
-        public string Nickname;
+        //[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 40)]
+        public string userName { get; set; }
 
-        [MarshalAs(UnmanagedType.U2, SizeConst = 2)]
-        public short ResultType;
+        //[MarshalAs(UnmanagedType.U2, SizeConst = 2)]
+        public short ResultType { get; set; }
     }
     [Serializable]
-    [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
+    //[StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
     public struct PacketSetNicknameReq
     {
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 40)]
-        public string Nickname;
+        //[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 40)]
+        public string userName { get; set; }
     }
 
 }

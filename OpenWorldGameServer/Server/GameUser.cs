@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using ServerLibrary.Network;
 using OpenWorldGameServer.Packet;
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace OpenWorldGameServer.Server
 {
@@ -15,7 +17,7 @@ namespace OpenWorldGameServer.Server
 
         public int UserIndex;
 
-        public string Nickname;
+        public string UserName;
 
         public GameUser(UserToken token)
         {
@@ -66,22 +68,37 @@ namespace OpenWorldGameServer.Server
                         //종료
                     }
                     break;
-                case EProtocoleType.PlayerMove:
+                //case EProtocoleType.PlayerMove:
+                //    {
+                //        PacketPlayerMove data = msg.DeserializeStruct<PacketPlayerMove>();
+                //    }
+                //    break;
+                case EProtocoleType.SetNicknameReq:
                     {
-                        PacketPlayerMove data = msg.DeserializeStruct<PacketPlayerMove>();
-                    }
-                    break;
-                case EProtocoleType.SetNicknameAck:
-                    {
-                        PacketSetNicknameReq data = msg.DeserializeStruct<PacketSetNicknameReq>();
-                        Nickname = data.Nickname;
+                        //기존 구조체 직렬화
+                        //PacketSetNicknameReq data = msg.DeserializeStruct<PacketSetNicknameReq>();
+                        //Nickname = data.Nickname;
 
+                        //PacketBase response = PacketBase.Create((short)EProtocoleType.SetNicknameAck);
+                        //PacketSetNicknameAck ack;
+                        //ack.Nickname = Nickname;
+                        //ack.ResultType = (short)EServerMessageType.Success;
+                        //response.PushStruct<PacketSetNicknameAck>(ack);
+
+                        //구조체 json 직렬화
+                        string json = msg.PopString();
+                        //string json = raw.Replace("\r\n\t", "").Replace("\r\n", "");
+                        //byte[] json = msg.PopStringToBytes();
+                        //var readOnlySpan = new ReadOnlySpan<byte>(json);
+                        PacketSetNicknameReq data = msg.DeserializeJsonToStruct<PacketSetNicknameReq>(json);//JsonSerializer.Deserialize<PacketSetNicknameReq>(readOnlySpan);//msg.DeserializeJsonToStruct<PacketSetNicknameReq>(json);
+                        UserName = data.userName;
                         PacketBase response = PacketBase.Create((short)EProtocoleType.SetNicknameAck);
-                        PacketSetNicknameAck ack;
-                        ack.Nickname = Nickname;
-                        ack.ResultType = (short)EServerMessageType.Success;
-                        response.PushStruct<PacketSetNicknameAck>(ack);
+                        PacketSetNicknameAck ack = new PacketSetNicknameAck();
 
+                        ack.userName = UserName;
+                        ack.ResultType = (short)EServerMessageType.Success;
+                        string text = response.SerealizeStructToJson<PacketSetNicknameAck>(ack);
+                        response.Push(text);
                         Send(response);
                     }
                     break;

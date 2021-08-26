@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+
 
 namespace ServerLibrary.Network
 {
@@ -102,6 +105,20 @@ namespace ServerLibrary.Network
             return data;
         }
 
+        public byte[] PopStringToBytes()
+        {
+            //문자열 길이는 최대 2바이트 까지. 0 ~ 32767
+            Int16 length = BitConverter.ToInt16(Buffer, Position);
+            Position += sizeof(Int16);
+
+            //인코딩은 utf8로 통일
+            byte[] array = new byte[length];
+            Array.Copy(Buffer, Position, array, 0, length);
+            Position += length;
+
+            return array;
+        }
+
         public float PopFloat()
         {
             float data = BitConverter.ToSingle(Buffer, Position);
@@ -123,6 +140,20 @@ namespace ServerLibrary.Network
             return result;
 
         }
+
+        public string SerealizeStructToJson<T>(T data)
+        {
+            string json = JsonSerializer.Serialize(data);
+            return json;
+            //JsonConverter converter = new JsonConverter();
+            //converter.
+        }
+        public T DeserializeJsonToStruct<T>(string json)
+        {
+            T data = JsonSerializer.Deserialize<T>(json);
+            return data;
+        }
+
 
         public void SetProtocol(Int16 type)
         {

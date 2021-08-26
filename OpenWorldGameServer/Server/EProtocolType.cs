@@ -8,18 +8,19 @@ namespace OpenWorldGameServer.Server
 {
     public enum EProtocoleType : short
     {
-        Begin,
-        ChatMsgReq = 1,
-        ChatMsgAck,
-        ConnectReq,
-        ConnectAck,
-        NewClient,
-        PlayerMove,
-        CharacterMove,
-        SetNicknameAck,
-        SetNicknameReq,
-        End
-    }
+		Begin = 0,
+		ChatMsgReq = 1,
+		ChatMsgAck,
+		ConnectReq,
+		ConnectAck,
+		NewClient,
+		PlayerMoveReq,
+		PlayerMoveAck,
+		CharacterMove,
+		SetNicknameReq,
+		SetNicknameAck,
+		End
+	}
 
     public enum EServerMessageType : short
     {
