@@ -68,28 +68,12 @@ namespace OpenWorldGameServer.Server
                         //종료
                     }
                     break;
-                //case EProtocoleType.PlayerMove:
-                //    {
-                //        PacketPlayerMove data = msg.DeserializeStruct<PacketPlayerMove>();
-                //    }
-                //    break;
                 case EProtocoleType.SetNicknameReq:
                     {
                         //기존 구조체 직렬화
-                        //PacketSetNicknameReq data = msg.DeserializeStruct<PacketSetNicknameReq>();
-                        //Nickname = data.Nickname;
-
-                        //PacketBase response = PacketBase.Create((short)EProtocoleType.SetNicknameAck);
-                        //PacketSetNicknameAck ack;
-                        //ack.Nickname = Nickname;
-                        //ack.ResultType = (short)EServerMessageType.Success;
-                        //response.PushStruct<PacketSetNicknameAck>(ack);
 
                         //구조체 json 직렬화
                         string json = msg.PopString();
-                        //string json = raw.Replace("\r\n\t", "").Replace("\r\n", "");
-                        //byte[] json = msg.PopStringToBytes();
-                        //var readOnlySpan = new ReadOnlySpan<byte>(json);
                         PacketSetNicknameReq data = msg.DeserializeJsonToStruct<PacketSetNicknameReq>(json);//JsonSerializer.Deserialize<PacketSetNicknameReq>(readOnlySpan);//msg.DeserializeJsonToStruct<PacketSetNicknameReq>(json);
                         UserName = data.userName;
                         PacketBase response = PacketBase.Create((short)EProtocoleType.SetNicknameAck);
