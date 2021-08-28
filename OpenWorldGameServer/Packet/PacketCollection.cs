@@ -9,7 +9,7 @@ namespace OpenWorldGameServer.Packet
 {
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct Vector3
+    public struct FVector
     {
         [MarshalAs(UnmanagedType.R8, SizeConst = 8)]
         public float X;
@@ -21,7 +21,7 @@ namespace OpenWorldGameServer.Packet
 
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
-    public struct Rotation3
+    public struct FRotator
     {
         [MarshalAs(UnmanagedType.R8, SizeConst = 8)]
         public float Pitch;

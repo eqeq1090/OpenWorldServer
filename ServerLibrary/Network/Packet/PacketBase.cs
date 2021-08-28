@@ -136,7 +136,8 @@ namespace ServerLibrary.Network
             var ptr = Marshal.AllocHGlobal(size); 
             Marshal.Copy(array, 0, ptr, size); 
             var result = (T)Marshal.PtrToStructure(ptr, typeof(T)); 
-            Marshal.FreeHGlobal(ptr); 
+            Marshal.FreeHGlobal(ptr);
+            Position += size;
             return result;
 
         }

@@ -19,6 +19,11 @@ namespace OpenWorldGameServer.Server
 
         public string UserName;
 
+        public bool Connected;
+
+        public FVector Position;
+        public FRotator Rotation;
+
         public GameUser(UserToken token)
         {
             mToken = token;
@@ -50,27 +55,36 @@ namespace OpenWorldGameServer.Server
                         {
                             user.Send(response);
                         }
-                        
-                        //Send(response);
+                    }
+                    break;
+                case EProtocoleType.PlayerMoveReq:
+                    {
+                        PacketPlayerMove data = msg.DeserializeStruct<PacketPlayerMove>();
 
-                        if (text.Equals("exit"))
+                        PacketCharacterMove send;
+                        send.X = data.X;
+                        send.Y = data.Y;
+                        send.Z = data.Z;
+                        send.Roll = data.Roll;
+                        send.Yaw = data.Yaw;
+                        send.Pitch = data.Pitch;
+                        send.UserIndex = this.UserIndex;
+
+                        PacketBase update = PacketBase.Create((short)EProtocoleType.CharacterMove);
+                        update.PushStruct(send);
+
+                        //Connect 처리 되어 필드 정보를 갖고 있는 유저들만 보냄
+                        List<GameUser> sendList = (from user in Program.UserList
+                                                   where user.Connected = true
+                                                   select user).ToList();
+                        foreach(GameUser user in sendList)
                         {
-                            //대량의 메시지를 한꺼번에 보낸 후 종료하는 시나리오 테스트
-                            for (int i = 0; i < 1000; ++i)
-                            {
-                                PacketBase dummy = PacketBase.Create((short)EProtocoleType.ChatMsgAck);
-                                dummy.Push(i.ToString());
-                                Send(dummy);
-                            }
-
-                            mToken.Ban();
+                            user.Send(update);
                         }
-                        //종료
                     }
                     break;
                 case EProtocoleType.SetNicknameReq:
                     {
-                        //기존 구조체 직렬화
 
                         //구조체 json 직렬화
                         string json = msg.PopString();
@@ -84,6 +98,11 @@ namespace OpenWorldGameServer.Server
                         string text = response.SerealizeStructToJson<PacketSetNicknameAck>(ack);
                         response.Push(text);
                         Send(response);
+                    }
+                    break;
+                case EProtocoleType.ConnectReq:
+                    {
+
                     }
                     break;
             }
