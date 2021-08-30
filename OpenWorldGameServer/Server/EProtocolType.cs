@@ -19,7 +19,6 @@ namespace OpenWorldGameServer.Server
 		CharacterMove,
 		SetNicknameReq,
 		SetNicknameAck,
-		NewPlayer,
 		End
 	}
 

@@ -42,7 +42,7 @@ namespace OpenWorldGameServer.Server
         void IPeer.OnMessage(PacketBase msg)
         {
             EProtocoleType protocol = (EProtocoleType)msg.ProtocolType;//(EProtocoleType)msg.PopProtocolType();
-            switch (protocol)
+            switch (protocol) 
             {
                 case EProtocoleType.ChatMsgReq:
                     {
@@ -70,12 +70,20 @@ namespace OpenWorldGameServer.Server
                         send.Pitch = data.Pitch;
                         send.UserIndex = this.UserIndex;
 
+                        this.Position.X = data.X;
+                        this.Position.Y = data.Y;
+                        this.Position.Z = data.Z;
+
+                        this.Rotation.Roll = data.Roll;
+                        this.Rotation.Yaw = data.Yaw;
+                        this.Rotation.Pitch = data.Pitch;
+
                         PacketBase update = PacketBase.Create((short)EProtocoleType.CharacterMove);
                         update.PushStruct(send);
 
                         //Connect 처리 되어 필드 정보를 갖고 있는 유저들만 보냄
                         List<GameUser> sendList = (from user in Program.UserList
-                                                   where user.Connected = true
+                                                   where user.Connected = true && user.UserIndex != this.UserIndex
                                                    select user).ToList();
                         foreach(GameUser user in sendList)
                         {
@@ -83,28 +91,60 @@ namespace OpenWorldGameServer.Server
                         }
                     }
                     break;
-                case EProtocoleType.SetNicknameReq:
+                case EProtocoleType.ConnectReq:
                     {
 
                         //구조체 json 직렬화
                         string json = msg.PopString();
                         PacketSetNicknameReq data = msg.DeserializeJsonToStruct<PacketSetNicknameReq>(json);//JsonSerializer.Deserialize<PacketSetNicknameReq>(readOnlySpan);//msg.DeserializeJsonToStruct<PacketSetNicknameReq>(json);
                         UserName = data.userName;
-                        PacketBase response = PacketBase.Create((short)EProtocoleType.SetNicknameAck);
-                        PacketSetNicknameAck ack = new PacketSetNicknameAck();
 
-                        ack.userName = UserName;
+                        //접속 성공여부 및 닉네임, 필드정보 전송
+                        PacketBase response = PacketBase.Create((short)EProtocoleType.ConnectAck);
+                        PacketConnectAck ack = new PacketConnectAck();
+
+                        List<GameUser> sendList = (from user in Program.UserList
+                                                   where user.Connected = true && user.UserIndex != this.UserIndex
+                                                   select user).ToList();
+
+                        ack.MyName = UserName;
                         ack.ResultType = (short)EServerMessageType.Success;
-                        string text = response.SerealizeStructToJson<PacketSetNicknameAck>(ack);
+                        ack.UserList = new List<UserData>();
+                        foreach(GameUser user in sendList)
+                        {
+                            UserData userInfo = new UserData();
+                            userInfo.Position = user.Position;
+                            userInfo.Rotation = user.Rotation;
+                            userInfo.UserIndex = user.UserIndex;
+                            userInfo.UserName = user.UserName;
+
+                            ack.UserList.Add(userInfo);
+                        }
+                        
+                        string text = response.SerealizeStructToJson<PacketConnectAck>(ack);
                         response.Push(text);
                         Send(response);
-                    }
-                    break;
-                case EProtocoleType.ConnectReq:
-                    {
 
+
+                       
+                        //새 유저가 접속했다고 알림
+                        PacketBase response1 = PacketBase.Create((short)EProtocoleType.NewClient);
+                        PacketNewClient newClient = new PacketNewClient();
+                        newClient.UserIndex = this.UserIndex;
+                        newClient.UserName = this.UserName;
+
+                        foreach(GameUser user in sendList)
+                        {
+                            user.Send(response1);
+                        }
+                      
                     }
                     break;
+                //case EProtocoleType.ConnectReq:
+                //    {
+
+                //    }
+                //    break;
             }
 
         }

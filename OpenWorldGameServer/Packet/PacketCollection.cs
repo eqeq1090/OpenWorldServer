@@ -86,4 +86,32 @@ namespace OpenWorldGameServer.Packet
         public string userName { get; set; }
     }
 
+    [Serializable]
+    public struct PacketConnectAck
+    {
+        public string MyName { get; set; }
+        public short ResultType { get; set; }
+        public List<UserData> UserList { get; set; }
+
+
+    }
+
+    [Serializable]
+    public struct PacketNewClient
+    {
+        public string UserName { get; set; }
+        public int UserIndex { get; set; }
+    }
+
+
+    [Serializable]
+    public struct UserData
+    {
+        public int UserIndex;
+        public string UserName;
+        public FVector Position;
+        public FRotator Rotation;
+    }
+
+
 }
