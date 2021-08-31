@@ -13,7 +13,7 @@ namespace OpenWorldGameServer.Server
 {
     class GameUser : IPeer
     {
-        UserToken mToken;
+        private UserToken mToken;
 
         public int UserIndex;
 
@@ -61,7 +61,7 @@ namespace OpenWorldGameServer.Server
                     {
                         PacketPlayerMove data = msg.DeserializeStruct<PacketPlayerMove>();
 
-                        PacketCharacterMove send;
+                        PacketCharacterMove send = new PacketCharacterMove();
                         send.X = data.X;
                         send.Y = data.Y;
                         send.Z = data.Z;
@@ -109,10 +109,10 @@ namespace OpenWorldGameServer.Server
 
                         ack.MyName = UserName;
                         ack.ResultType = (short)EServerMessageType.Success;
-                        ack.UserList = new List<UserData>();
+                        ack.UserList = new List<FieldUserData>();
                         foreach(GameUser user in sendList)
                         {
-                            UserData userInfo = new UserData();
+                            FieldUserData userInfo = new FieldUserData();
                             userInfo.Position = user.Position;
                             userInfo.Rotation = user.Rotation;
                             userInfo.UserIndex = user.UserIndex;
@@ -127,11 +127,14 @@ namespace OpenWorldGameServer.Server
 
 
                        
-                        //새 유저가 접속했다고 알림
+                        //새 유저가 접속했다고 Connect 상태의 유저들에게 알림
                         PacketBase response1 = PacketBase.Create((short)EProtocoleType.NewClient);
                         PacketNewClient newClient = new PacketNewClient();
                         newClient.UserIndex = this.UserIndex;
                         newClient.UserName = this.UserName;
+
+                        string newClientJson = response1.SerealizeStructToJson<PacketNewClient>(newClient);
+                        response1.Push(newClientJson);
 
                         foreach(GameUser user in sendList)
                         {

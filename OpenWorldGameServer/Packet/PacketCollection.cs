@@ -34,6 +34,10 @@ namespace OpenWorldGameServer.Packet
     [StructLayout(LayoutKind.Sequential)]
     public struct PacketPlayerMove
     {
+
+        [MarshalAs(UnmanagedType.U2, SizeConst = 2)]
+        public short MoveState;
+
         [MarshalAs(UnmanagedType.R8, SizeConst = 8)]
         public float X;
         [MarshalAs(UnmanagedType.R8, SizeConst = 8)]
@@ -52,7 +56,11 @@ namespace OpenWorldGameServer.Packet
     [StructLayout(LayoutKind.Sequential)]
     public struct PacketCharacterMove
     {
+        [MarshalAs(UnmanagedType.U4, SizeConst = 4)]
         public int UserIndex;
+
+        [MarshalAs(UnmanagedType.U2, SizeConst = 2)]
+        public short MoveState;
 
         [MarshalAs(UnmanagedType.R8, SizeConst = 8)]
         public float X;
@@ -91,7 +99,7 @@ namespace OpenWorldGameServer.Packet
     {
         public string MyName { get; set; }
         public short ResultType { get; set; }
-        public List<UserData> UserList { get; set; }
+        public List<FieldUserData> UserList { get; set; }
 
 
     }
@@ -105,7 +113,7 @@ namespace OpenWorldGameServer.Packet
 
 
     [Serializable]
-    public struct UserData
+    public struct FieldUserData
     {
         public int UserIndex;
         public string UserName;
