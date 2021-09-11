@@ -50,8 +50,13 @@ namespace OpenWorldGameServer.Server
                         Console.WriteLine(string.Format("text {0}", text));
 
                         PacketBase response = PacketBase.Create((short)EProtocoleType.ChatMsgAck);
+
+                        PacketChatMessageArrived send = new PacketChatMessageArrived();
+                        send.ChatMsgType = 0;
+                        send.Message = text;
+                        send.OwnerIndex = this.UserIndex;
                         response.Push(text);
-                        foreach(GameUser user in Program.UserList)
+                        foreach(GameUser user in Program.GetConnectedUser())
                         {
                             user.Send(response);
                         }
@@ -60,6 +65,8 @@ namespace OpenWorldGameServer.Server
                 case EProtocoleType.PlayerMoveReq:
                     {
                         PacketPlayerMove data = msg.DeserializeStruct<PacketPlayerMove>();
+
+                        
 
                         PacketCharacterMove send = new PacketCharacterMove();
                         send.X = data.X;
@@ -81,11 +88,8 @@ namespace OpenWorldGameServer.Server
                         PacketBase update = PacketBase.Create((short)EProtocoleType.CharacterMove);
                         update.PushStruct(send);
 
-                        //Connect 처리 되어 필드 정보를 갖고 있는 유저들만 보냄
-                        List<GameUser> sendList = (from user in Program.UserList
-                                                   where user.Connected = true && user.UserIndex != this.UserIndex
-                                                   select user).ToList();
-                        foreach(GameUser user in sendList)
+                        
+                        foreach(GameUser user in Program.GetConnectedUser(this.UserIndex))
                         {
                             user.Send(update);
                         }
@@ -97,15 +101,13 @@ namespace OpenWorldGameServer.Server
                         //구조체 json 직렬화
                         string json = msg.PopString();
                         PacketSetNicknameReq data = msg.DeserializeJsonToStruct<PacketSetNicknameReq>(json);//JsonSerializer.Deserialize<PacketSetNicknameReq>(readOnlySpan);//msg.DeserializeJsonToStruct<PacketSetNicknameReq>(json);
-                        UserName = data.userName;
+                        UserName = data.UserName;
 
                         //접속 성공여부 및 닉네임, 필드정보 전송
                         PacketBase response = PacketBase.Create((short)EProtocoleType.ConnectAck);
                         PacketConnectAck ack = new PacketConnectAck();
 
-                        List<GameUser> sendList = (from user in Program.UserList
-                                                   where user.Connected = true && user.UserIndex != this.UserIndex
-                                                   select user).ToList();
+                        List<GameUser> sendList = Program.GetConnectedUser(this.UserIndex);
 
                         ack.MyName = UserName;
                         ack.ResultType = (short)EServerMessageType.Success;

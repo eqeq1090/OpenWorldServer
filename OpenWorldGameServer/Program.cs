@@ -53,5 +53,30 @@ namespace OpenWorldGameServer
                 UserList.Remove(user);
             }
         }
+        /// <summary>
+        /// index 의 유저를 제외한 모든 연결 유저를 반환
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public static List<GameUser> GetConnectedUser(int index)
+        {
+            List<GameUser> sendList = (from user in Program.UserList
+                                       where user.Connected = true && user.UserIndex != index
+                                       select user).ToList();
+
+            return sendList;
+        }
+        /// <summary>
+        /// 연결된 모든 유저
+        /// </summary>
+        /// <returns></returns>
+        public static List<GameUser> GetConnectedUser()
+        {
+            List<GameUser> sendList = (from user in Program.UserList
+                                       where user.Connected = true
+                                       select user).ToList();
+
+            return sendList;
+        }
     }
 }

@@ -91,8 +91,17 @@ namespace OpenWorldGameServer.Packet
     public struct PacketSetNicknameReq
     {
         //[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 40)]
-        public string userName { get; set; }
+        public string UserName { get; set; }
     }
+
+    public struct PacketChatMessageArrived
+    {
+        public short ChatMsgType { get; set; }
+        public int OwnerIndex { get; set; }
+        public string Message { get; set; }
+
+    }
+
 
     [Serializable]
     public struct PacketConnectAck
