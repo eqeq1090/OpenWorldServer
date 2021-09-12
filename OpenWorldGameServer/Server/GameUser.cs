@@ -55,7 +55,9 @@ namespace OpenWorldGameServer.Server
                         send.ChatMsgType = 0;
                         send.Message = text;
                         send.OwnerIndex = this.UserIndex;
-                        response.Push(text);
+                        string jsonData = response.SerializeStructToJson<PacketChatMessageArrived>(send);
+                        response.Push(jsonData);
+                        //response.Push(text);
                         foreach(GameUser user in Program.GetConnectedUser())
                         {
                             user.Send(response);
@@ -123,7 +125,7 @@ namespace OpenWorldGameServer.Server
                             ack.UserList.Add(userInfo);
                         }
                         
-                        string text = response.SerealizeStructToJson<PacketConnectAck>(ack);
+                        string text = response.SerializeStructToJson<PacketConnectAck>(ack);
                         response.Push(text);
                         Send(response);
 
@@ -135,7 +137,7 @@ namespace OpenWorldGameServer.Server
                         newClient.UserIndex = this.UserIndex;
                         newClient.UserName = this.UserName;
 
-                        string newClientJson = response1.SerealizeStructToJson<PacketNewClient>(newClient);
+                        string newClientJson = response1.SerializeStructToJson<PacketNewClient>(newClient);
                         response1.Push(newClientJson);
 
                         foreach(GameUser user in sendList)

@@ -142,7 +142,7 @@ namespace ServerLibrary.Network
 
         }
 
-        public string SerealizeStructToJson<T>(T data)
+        public string SerializeStructToJson<T>(T data)
         {
             string json = JsonSerializer.Serialize(data);
             return json;

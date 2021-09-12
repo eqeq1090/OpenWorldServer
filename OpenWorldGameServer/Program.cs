@@ -21,7 +21,7 @@ namespace OpenWorldGameServer
             service.mSessionCreatedCallback += OnSessionCreated;
             //초기화
             service.Initialize(10000, 1024);
-            service.Listen("222.107.110.135", 9000, 100);
+            service.Listen("222.107.145.1", 9000, 100);
 
             service.DisableHeartbeat();
 
